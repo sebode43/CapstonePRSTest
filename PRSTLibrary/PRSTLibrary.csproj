@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
+    <Compile Remove="Migrations\20200225195343_Init.cs" />
+    <Compile Remove="Migrations\20200225195343_Init.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

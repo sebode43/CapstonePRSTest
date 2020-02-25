@@ -12,4 +12,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PRSTLibrary\PRSTLibrary.csproj" />
+  </ItemGroup>
+
 </Project>
