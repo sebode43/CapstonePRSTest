@@ -1,4 +1,5 @@
 ﻿using PRSTLibrary;
+using PRSTLibrary.Controllers;
 using PRSTLibrary.Models;
 using System;
 using System.Linq;
@@ -8,8 +9,7 @@ namespace CapstonePRSTest {
         static void Main(string[] args) {
             var context = new AppDbContext();
 
-            AddRequestLine(context);
-            GetAllRequestLines(context);
+            var UserCtrl = new UserController();
 
         }
         static void AddUser(AppDbContext context) {
