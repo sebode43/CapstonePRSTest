@@ -8,8 +8,8 @@ namespace CapstonePRSTest {
         static void Main(string[] args) {
             var context = new AppDbContext();
 
-            AddProduct(context);
-            GetAllProducts(context);
+            AddRequestLine(context);
+            GetAllRequestLines(context);
 
         }
         static void AddUser(AppDbContext context) {
@@ -58,6 +58,34 @@ namespace CapstonePRSTest {
         static void GetAllProducts(AppDbContext context) {
             var products = context.Products.ToList();
             products.ForEach(p => Console.WriteLine($"{p.Id}. {p.Name}"));
+        }
+
+        static void AddRequests(AppDbContext context) {
+            var request = new Request { Id = 0, Description = "Order Request 1", Justification = "Justification 1", Total = 270, UserId = 1 };
+            var request2 = new Request { Id = 0, Description = "Order Request 2", Justification = "Justification 2", DeliveryMode = "Drop-off", Status = "Delivered", Total = 160, UserId = 1 };
+            var request3 = new Request { Id = 0, Description = "Order Request 3", Justification = "Justification 3", DeliveryMode = "Drop-off",  Total = 300, UserId = 1 };
+            context.AddRange(request, request2, request3);
+            var rowsAffected = context.SaveChanges();
+            if (rowsAffected != 3) throw new Exception("Add Request failed");
+            return;
+        }
+        static void GetAllRequests(AppDbContext context) {
+            var requests = context.Requests.ToList();
+            requests.ForEach(r => Console.WriteLine($"{r.Id}. {r.Description}"));
+        }
+
+        static void AddRequestLine(AppDbContext context) {
+            var rl = new RequestLine { Id = 0, ProductId = 5, RequestId = 1, Quantity = 3};
+            var rl2 = new RequestLine { Id = 0, ProductId = 6, RequestId = 2};
+            var rl3 = new RequestLine { Id = 0, ProductId = 7, RequestId = 3, Quantity = 5};
+            context.AddRange(rl, rl2, rl3);
+            var rowsAffected = context.SaveChanges();
+            if (rowsAffected != 3) throw new Exception("Add RequestLine failed");
+            return;
+        }
+        static void GetAllRequestLines(AppDbContext context) {
+            var requestlines = context.RequestLines.ToList();
+            requestlines.ForEach(rl => Console.WriteLine($"{rl.Id}. {rl.Quantity}"));
         }
     }
 }
