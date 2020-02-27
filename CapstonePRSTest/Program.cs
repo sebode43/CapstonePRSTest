@@ -9,11 +9,12 @@ namespace CapstonePRSTest {
         static void Main(string[] args) {
             var context = new AppDbContext();
 
-            var UserCtrl = new UserController();
-            var userpk = UserCtrl.GetByPK(2);
-            userpk.Firstname = "John";
-            UserCtrl.Update(2, userpk);
-            }
+            var RequestLineCtrl = new RequestLineController();
+            var test = RequestLineCtrl.GetByPk(4);
+            test.ProductId = 5;
+            RequestLineCtrl.Delete(6);
+
+        }
 
         static void AddUser(AppDbContext context) {
             var user = new User { Id = 0, Username = "khudson", Password = "K.Hudson21", Firstname = "Kelly", Lastname = "Hudson", 

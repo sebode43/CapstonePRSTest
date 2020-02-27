@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 
 namespace PRSTLibrary.Controllers {
-    class RequestController {
+    public class RequestController {
         private AppDbContext context = new AppDbContext();
 
         private void CatchException() {
@@ -46,6 +46,34 @@ namespace PRSTLibrary.Controllers {
             context.Remove(request);
             CatchException();
             return true;
+        }
+
+        public bool Review(int id, Request request) {
+            if (request == null) throw new Exception("Reuqest cannot be null");
+            if (id != request.Id) throw new Exception("New Id and Request Id must match");
+            context.Entry(request).State = EntityState.Modified;
+            request.Status = "Review";
+            CatchException();
+            return true;
+        }
+        public bool Approve(int id, Request request) {
+            if (request == null) throw new Exception("Reuqest cannot be null");
+            if (id != request.Id) throw new Exception("New Id and Request Id must match");
+            context.Entry(request).State = EntityState.Modified;
+            request.Status = "Approved";
+            CatchException();
+            return true;
+        }
+        public bool Reject(int id, Request request) {
+            if (request == null) throw new Exception("Reuqest cannot be null");
+            if (id != request.Id) throw new Exception("New Id and Request Id must match");
+            context.Entry(request).State = EntityState.Modified;
+            request.Status = "Reject";
+            CatchException();
+            return true;
+        }
+        public IEnumerable<Request> GetReviews(Request request) {
+            return context.Requests.Where(x => x.Status == "Review" && x.UserId != request.UserId);
         }
 
     }

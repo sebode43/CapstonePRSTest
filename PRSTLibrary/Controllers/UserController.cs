@@ -61,6 +61,13 @@ namespace PRSTLibrary.Controllers {
                 throw;
             }
         }
+
+        public IEnumerable<User> Login(string username, string password) {
+            var user = context.Users.Where(u => u.Username == username && u.Password == password);
+            //if (username == null) throw new Exception("Username not found");
+            //if (password == null) throw new Exception("Password not found");
+            return user;
+        }
     }
 
 
