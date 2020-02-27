@@ -13,7 +13,7 @@ namespace PRSTLibrary.Controllers {
             try {
                 context.SaveChanges();
             } catch (DbUpdateException ex) {
-                throw new Exception("Username must be unique", ex);
+                throw new Exception("PartNbr must be unique", ex);
             } catch (Exception ex) {
                 throw;
             }
