@@ -57,19 +57,21 @@ namespace PRSTLibrary.Controllers {
                 context.SaveChanges();
             } catch (DbUpdateException ex) {
                 throw new Exception("Username must be unique", ex);
-            } catch (Exception ex) {
+            } catch (Exception) {
                 throw;
             }
         }
 
-        public IEnumerable<User> Login(string username, string password) {
-            var user = context.Users.Where(u => u.Username == username && u.Password == password);
-            //if (username == null) throw new Exception("Username not found");
-            //if (password == null) throw new Exception("Password not found");
-            return user;
+        public User Login(string username, string password) {
+            try {
+                return context.Users.SingleOrDefault(u => u.Username == username && u.Password == password);
+            } catch (ArgumentNullException ex) {
+                throw new Exception("Cannot be null", ex);
+            } catch(InvalidOperationException ex) {
+                throw new Exception("Invalid username or password", ex);
+            } catch (Exception) {
+                throw;
+            }
         }
     }
-
-
-
 }

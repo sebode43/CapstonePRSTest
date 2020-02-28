@@ -48,32 +48,31 @@ namespace PRSTLibrary.Controllers {
             return true;
         }
 
-        public bool Review(int id, Request request) {
-            if (request == null) throw new Exception("Reuqest cannot be null");
-            if (id != request.Id) throw new Exception("New Id and Request Id must match");
-            context.Entry(request).State = EntityState.Modified;
-            request.Status = "Review";
-            CatchException();
-            return true;
+        public const string StatusNew = "NEW";
+        public const string StatusEdit = "EDIT";
+        public const string StatusReview = "REVIEW";
+        public const string StatusApproved = "APPROVED";
+        public const string StatusRejected = "REJECTED";
+
+        public bool Review(Request request) {
+            if (request.Total <= 50) {
+                request.Status = StatusApproved;
+            } else {
+                request.Status = StatusReview;
+            }
+            return Update(request.Id, request); //use the update that is already been written, do not rewrite code!
         }
-        public bool Approve(int id, Request request) {
-            if (request == null) throw new Exception("Reuqest cannot be null");
-            if (id != request.Id) throw new Exception("New Id and Request Id must match");
-            context.Entry(request).State = EntityState.Modified;
-            request.Status = "Approved";
-            CatchException();
-            return true;
+        public bool Approve(Request request) {
+            request.Status = StatusApproved;
+            return Update(request.Id, request);
+    }
+        public bool Reject(Request request) {
+            //needs a RejectionReason
+            request.Status = StatusRejected;
+            return Update(request.Id, request);
         }
-        public bool Reject(int id, Request request) {
-            if (request == null) throw new Exception("Reuqest cannot be null");
-            if (id != request.Id) throw new Exception("New Id and Request Id must match");
-            context.Entry(request).State = EntityState.Modified;
-            request.Status = "Reject";
-            CatchException();
-            return true;
-        }
-        public IEnumerable<Request> GetReviews(Request request) {
-            return context.Requests.Where(x => x.Status == "Review" && x.UserId != request.UserId);
+        public IEnumerable<Request> GetReviewsNotOwn(int userId) {
+            return context.Requests.Where(x => x.UserId != userId && x.Status == StatusReview).ToList();
         }
 
     }

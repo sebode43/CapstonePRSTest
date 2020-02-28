@@ -15,7 +15,7 @@ namespace CapstonePRSTest {
             RequestLineCtrl.Delete(6);
 
         }
-
+        #region Old Code
         static void AddUser(AppDbContext context) {
             var user = new User { Id = 0, Username = "khudson", Password = "K.Hudson21", Firstname = "Kelly", Lastname = "Hudson", 
                 Phone = "555-123-4532", Email = "khudson@mail.com", IsAdmin = true, IsReviewer = true, };
@@ -91,5 +91,6 @@ namespace CapstonePRSTest {
             var requestlines = context.RequestLines.ToList();
             requestlines.ForEach(rl => Console.WriteLine($"{rl.Id}. {rl.Quantity}"));
         }
+        #endregion
     }
 }
