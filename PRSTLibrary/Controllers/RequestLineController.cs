@@ -9,15 +9,6 @@ namespace PRSTLibrary.Controllers {
     public class RequestLineController {
         private AppDbContext context = new AppDbContext();
 
-        private void CatchException() {
-            try {
-                context.SaveChanges();
-            } catch (DbUpdateException ex) {
-                throw new Exception("Quantity length is too long", ex);
-            } catch (Exception ex) {
-                throw;
-            }
-        }
         public IEnumerable<RequestLine> GetAll() {
             return context.RequestLines.ToList();
         }
@@ -28,14 +19,14 @@ namespace PRSTLibrary.Controllers {
         public RequestLine Insert(RequestLine requestLine) {
             if (requestLine == null) throw new Exception("Request cannot be null");
             context.RequestLines.Add(requestLine);
-            CatchException();
+            CheckException(requestLine);
             return requestLine;
         }
         public bool Update(int id, RequestLine requestLine) {
             if (requestLine == null) throw new Exception("Request cannot be null");
             if (id != requestLine.Id) throw new Exception("New Id and Request Id must match");
             context.Entry(requestLine).State = EntityState.Modified;
-            CatchException();
+            CheckException(requestLine);
             return true;
         }
         public bool Delete(int id) {
@@ -46,8 +37,27 @@ namespace PRSTLibrary.Controllers {
         }
         public bool Delete(RequestLine requestLine) {
             context.RequestLines.Remove(requestLine);
-            CatchException();
+            CheckException(requestLine);
             return true;
+        }
+
+        private void CheckException(RequestLine requestLine) {
+            try {
+                context.SaveChanges();
+                RecalcRequestTotal(requestLine.RequestId);
+            } catch (DbUpdateException ex) {
+                throw new Exception("Quantity length is too long", ex);
+            } catch (Exception) {
+                throw;
+            }
+        }
+
+        private void RecalcRequestTotal(int requestId) {
+            var request = context.Requests.Find(requestId);
+            //request.Total = request.RequestLine.Sum(x => x.Quantity * x.Product.Price);
+            var total = context.RequestLines.Where(rl => rl.RequestId == requestId).Sum(rl => rl.Quantity * rl.Product.Price);
+            request.Total = total;
+            context.SaveChanges();
         }
     }
 }

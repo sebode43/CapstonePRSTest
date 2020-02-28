@@ -15,7 +15,7 @@ namespace PRSTLibrary.Controllers {
                 context.SaveChanges();
             } catch (DbUpdateException ex) {
                 throw new Exception("Code must be unique", ex);
-            } catch (Exception ex) {
+            } catch (Exception) {
                 throw;
             }
         }

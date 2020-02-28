@@ -14,7 +14,7 @@ namespace PRSTLibrary.Controllers {
                 context.SaveChanges();
             } catch (DbUpdateException ex) {
                 throw new Exception("PartNbr must be unique", ex);
-            } catch (Exception ex) {
+            } catch (Exception) {
                 throw;
             }
         }

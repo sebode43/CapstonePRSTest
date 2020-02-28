@@ -60,7 +60,7 @@ namespace PRSTLibrary {
                 e.Property(x => x.Justification).HasMaxLength(80).IsRequired();
                 e.Property(x => x.RejectionReason).HasMaxLength(80);
                 e.Property(x => x.DeliveryMode).HasMaxLength(20).HasDefaultValue("Pickup").IsRequired();
-                e.Property(x => x.Status).HasMaxLength(10).HasDefaultValue("NEW").IsRequired();
+                e.Property(x => x.Status).HasMaxLength(10).HasDefaultValue("New").IsRequired();
                 e.Property(x => x.Total).HasColumnType("decimal(11,2)").HasDefaultValue(0).IsRequired();
 
             });

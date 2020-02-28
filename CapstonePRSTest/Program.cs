@@ -9,11 +9,10 @@ namespace CapstonePRSTest {
         static void Main(string[] args) {
             var context = new AppDbContext();
 
-            var RequestLineCtrl = new RequestLineController();
-            var test = RequestLineCtrl.GetByPk(4);
-            test.ProductId = 5;
-            RequestLineCtrl.Delete(6);
-
+            var RequestLCtrl = new RequestLineController();
+            var requestline = RequestLCtrl.GetByPk(5);
+            requestline.Quantity = 3;
+            RequestLCtrl.Update(5, requestline);
         }
         #region Old Code
         static void AddUser(AppDbContext context) {

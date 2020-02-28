@@ -12,7 +12,7 @@ namespace PRSTLibrary.Controllers {
         private void CatchException() {
             try {
                 context.SaveChanges();
-            } catch (Exception ex) {
+            } catch (Exception) {
                 throw;
             }
         }
@@ -30,10 +30,10 @@ namespace PRSTLibrary.Controllers {
             return (request);
         }
         public bool Update(int id, Request request) {
-            if (request == null) throw new Exception("Reuqest cannot be null");
+            if (request == null) throw new Exception("Request cannot be null");
             if (id != request.Id) throw new Exception("New Id and Request Id must match");
             context.Entry(request).State = EntityState.Modified;
-            CatchException();
+           CatchException();
             return true;
         }
         public bool Delete(int id) {
@@ -43,7 +43,7 @@ namespace PRSTLibrary.Controllers {
             return Delete(request);
         }
         public bool Delete(Request request) {
-            context.Remove(request);
+            context.Requests.Remove(request);
             CatchException();
             return true;
         }
